@@ -24,13 +24,16 @@
             <div class="left-side">
                 <div class="first-block">
                     <fieldset class="left-fieldset">
-                        <select class="watch">
-                            <option value="4">Срочно</option>
-                            <option value="3">Важно</option>
-                            <option value="2">Средне</option>
-                            <option value="1">Низко</option>
+                        <select class="priority">
+                            <option value="3">Высокий</option>
+                            <option value="2">Средний</option>
+                            <option value="1">Низкий</option>
                         </select>
-                        <input class="task" maxlength="1000" required></input>
+                        <div class="input-box">
+                            <input class="task-input" maxlength="35" id="task" name="task" placeholder=" " required>
+                            <label class="task-label" for="task">Заметка</label>
+                            <div class="char-counter">0/35</div>
+                        </div>
                         <button class="enter">
                             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path d="M16.175 13H4V11H16.175L10.575 5.4L12 4L20 12L12 20L10.575 18.6L16.175 13Z" stroke="#1E1E1E" stroke-width="0.1" fill="currentColor"/>
@@ -49,10 +52,22 @@
                     <button class="button-categories">Учёба</button>
                     <button class="button-categories">Работа</button>
                 </div>
+                <div class="process-done-container">
+                    <div class="process-block">
+                        <fieldset>
+                            <h2>В процессе</h2>
+                        </fieldset>
+                    </div>
+                    <div class="done-block">
+                        <fieldset>
+                            <h2>Готово</h2>
+                        </fieldset>
+                    </div>
+                </div>
             </div>
             <div class="second-block">
                 <fieldset>
-
+                    <h1>Заметки</h1>
                 </fieldset>
             </div>
         </main>
@@ -61,3 +76,5 @@
         </footer>
     </div>
 </body>
+<script src="code.js"></script>
+</html>
