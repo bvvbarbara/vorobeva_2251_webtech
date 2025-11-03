@@ -1,0 +1,51 @@
+.container main {
+    display: flex;
+    gap: 130px;
+    margin: 0 100px;
+}
+
+* {
+    background-color: #f6f6f6;
+}
+
+.first-block {
+    flex: 1;
+    height: 320px;
+    margin-top: 85px;
+}
+
+.second-block {
+    flex: 1;
+    height: 800px;
+    margin-top: 85px;
+}
+
+fieldset {
+    padding: 20px;
+    background-color: #D9D9D9;
+    border: none;
+    border-radius: 30px;
+    height: 60%;
+}
+
+.left-side {
+    flex: 1;
+}
+
+.buttons {
+    flex: 1;
+    margin-top: -60px;
+}
+
+button {
+    border: none;
+    background-color: #D9D9D9;
+    border-radius: 10px;
+    padding: 8px 32px;
+    margin: 0 6px;
+}
+
+button:active {
+    transform: translateY(2px);
+}
+
