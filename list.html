@@ -42,12 +42,7 @@
                     </fieldset>
                 </div>
                 <div class="buttons">
-                    <!-- <button class="filter">
-                            <svg width="20" height="20" viewBox="0.5 0 23 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path d="M22 3H2L10 12.46V19L14 21V12.46L22 3Z" stroke="#1E1E1E" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
-</svg>
-
-                        </button> -->
+                    <button class="button-categories active">Всё</button>
                     <button class="button-categories">Дом</button>
                     <button class="button-categories">Учёба</button>
                     <button class="button-categories">Работа</button>
@@ -66,8 +61,18 @@
                 </div>
             </div>
             <div class="second-block">
-                <fieldset>
+                <fieldset class="right-fieldset">
                     <h1>Заметки</h1>
+                    <div class="notes-container"></div>
+                    <select class="filter">
+                        <option value="4">Всё</option>
+                        <option value="3">Высокий</option>
+                        <option value="2">Средний</option>
+                        <option value="1">Низкий</option>
+                    </select>
+                            <!-- <svg width="20" height="20" viewBox="0.5 0 23 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M22 3H2L10 12.46V19L14 21V12.46L22 3Z" stroke="#1E1E1E" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+</svg> -->
                 </fieldset>
             </div>
         </main>

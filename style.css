@@ -1,5 +1,13 @@
 header {
     background-color: #81becf;
+    margin: 0;
+    padding: 0;
+    height: 50px;
+}
+
+body {
+    margin: 0;
+    padding: 0;
 }
 
 .container main {
@@ -81,6 +89,17 @@ fieldset {
     margin-top: 54px;
 }
 
+.button-categories.active {
+    background-color: #81becf;
+    color: white;
+    transform: scale(1.05);
+}
+
+.button-categories:not(.active) {
+    background-color: #e0e0e0;
+    color: #666;
+}
+
 button:active {
     transform: translateY(2px);
 }
@@ -92,7 +111,7 @@ button:active {
     padding: 5px 8px;
     position: absolute;
     bottom: 20px; 
-    left: 510px;
+    right: 40px;
 }
 
 svg {
@@ -101,13 +120,19 @@ svg {
 
 .filter {
     background-color: #a6a6a6;
-    border-radius: 50%;
+    border-radius: 10px;
     border: none;
     padding: 5px 8px;
-    margin-right: 5px;
+    left: 25px;
+    position: absolute;
+    bottom: 25px;
 }
 
 .left-fieldset {
+    position: relative;
+}
+
+.right-fieldset {
     position: relative;
 }
 
