@@ -1,226 +1,204 @@
-header {
-    background-color: #81becf;
+* {
     margin: 0;
     padding: 0;
-    height: 50px;
+    box-sizing: border-box;
 }
 
 body {
-    margin: 0;
-    padding: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f5f5f5;
+    height: 100vh;
 }
 
-.container main {
+.container {
+    height: 100vh;
     display: flex;
-    gap: 130px;
-    margin: 0 100px;
+    flex-direction: column;
 }
 
-* {
-    background-color: #f6f6f6;
-    font-family: Arial, Helvetica, sans-serif;
-    font-weight: 100;
-}
-
-.first-block {
-    flex: 1;
-    height: 160px;
-    margin-top: 85px;
-}
-
-.second-block {
-    flex: 1;
-    height: 850px;
-    margin-top: 85px;
-}
-
-.process-block {
-    flex: 1;
-    height: 295px; 
-    margin-top: 30px;
-    margin-right: 15px; 
-}
-
-.done-block {
-    flex: 1;
-    height: 295px; 
-    margin-top: 30px;
-    margin-left: 15px;
-}
-
-.process-done-container {
+main {
     display: flex;
-    gap: 30px;
-    margin-top: 0px;
-}
-
-.process-block fieldset,
-.done-block fieldset {
-    background-color: #81becf8e;
-    border: none;
-    border-radius: 30px;
-    height: 100%;
+    flex: 1;
+    gap: 20px;
     padding: 20px;
+    align-items: flex-start;
 }
 
-fieldset {
-    padding: 20px;
-    background-color: #D9D9D9;
-    border: none;
-    border-radius: 30px;
-    height: 60%;
-}
-
+/* Левый блок */
 .left-side {
+    width: 20%;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    gap: 15px; /* Уменьшил гэп между блоками */
+}
+
+.categories-block {
     flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 8px; /* Уменьшил гэп между кнопками */
+    background: #e8f4fd; /* Светло-голубой фон */
+    padding: 15px; /* Уменьшил padding */
+    border-radius: 12px;
+    border: 1px solid #d0e8ff;
 }
 
-.buttons {
+.status-block {
+    margin-top: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 8px; /* Уменьшил гэп между кнопками */
+    background: #f0f8f0; /* Светло-зелёный фон */
+    padding: 15px; /* Уменьшил padding */
+    border-radius: 12px;
+    border: 1px solid #d0f0d0;
+}
+
+.categories-button, .status-button {
+    padding: 10px 14px; /* Уменьшил padding кнопок */
+    border: 1px solid #ddd;
+    background: white;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 14px;
+}
+
+.categories-button:hover, .status-button:hover {
+    background: #f0f0f0;
+    transform: translateY(-1px);
+}
+
+/* Правый блок */
+.right-side {
     flex: 1;
-    margin-top: -60px;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
 }
 
-.button-categories {
-    border: none;
-    background-color: #81becf;
-    border-radius: 10px;
-    padding: 8px 32px;
-    margin: 0 6px;
-    margin-top: 54px;
+.notes-block {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 15px; /* Уменьшил гэп */
+    height: 100%;
+    background: #fef7e0; /* Светло-жёлтый фон */
+    padding: 15px; /* Уменьшил общий padding */
+    border-radius: 12px;
+    border: 1px solid #ffeeba;
 }
 
-.button-categories.active {
-    background-color: #81becf;
-    color: white;
-    transform: scale(1.05);
+/* Блок ввода заметки */
+.input-note {
+    height: 180px; /* Немного уменьшил высоту */
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 15px; /* Уменьшил padding */
+    background: white;
+    display: flex;
+    flex-direction: column;
+    gap: 12px; /* Уменьшил гэп между элементами */
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
-.button-categories:not(.active) {
-    background-color: #e0e0e0;
-    color: #666;
-}
-
-button:active {
-    transform: translateY(2px);
-}
-
-.enter {
-    background-color: #a6a6a6;
-    border-radius: 50%;
-    border: none;
-    padding: 5px 8px;
-    position: absolute;
-    bottom: 20px; 
-    right: 40px;
-}
-
-svg {
-    background: transparent;
-}
-
-.filter {
-    background-color: #a6a6a6;
-    border-radius: 10px;
-    border: none;
-    padding: 5px 8px;
-    left: 25px;
-    position: absolute;
-    bottom: 25px;
-}
-
-.left-fieldset {
-    position: relative;
-}
-
-.right-fieldset {
-    position: relative;
-}
-
-input:focus {
-    border-bottom: 3px solid ;
-    border-color: #81becfec;
-}
-
-.priority {
-    position: absolute;
-    margin-top: 42px; 
-    left: 25px;
-    background: transparent;
-    border: none;
-    z-index: 2;
+.categories-selector {
+    padding: 6px 10px; /* Уменьшил padding */
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    width: 140px; /* Немного уменьшил ширину */
+    font-size: 14px;
 }
 
 .input-box {
-    background: transparent;
     position: relative;
+    flex: 1;
 }
 
-:active, :hover, :focus {
-    outline: 0;
-    outline-offset: 0;
+.note-input {
+    width: 100%;
+    height: 100%;
+    padding: 10px; /* Уменьшил padding */
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px; /* Уменьшил шрифт */
+    resize: none;
 }
 
-.task-input {
-    background: #d1d1d1;
-    margin-left: 90px;
-    margin-top: 26px;
-    width: 60%;
-    padding: 15px 15px;
-    border-top: none;
-    border-right: none;
-    border-left: none;
-    border-top-left-radius: 5px;
-    border-top-right-radius: 5px;
-    display: block;
-}
-
-.task-label {
+.note-label {
     position: absolute;
-    top: 50%;
-    left: 105px;
-    transform: translateY(-50%);
-    background: transparent;
-    color: #212529;
-    opacity: 0.6;
-    font-size: 16px;
-    pointer-events: none;
+    top: 10px; /* Подстроил под новый padding */
+    left: 10px;
+    color: #999;
     transition: all 0.3s ease;
-
+    pointer-events: none;
+    font-size: 14px;
 }
 
-
-.task-input:focus + .task-label,
-.task-input:not(:placeholder-shown) + .task-label {
-    top: 0;
-    left: 102px;
-    transform: translateY(-40%);
-    font-size: 16px;
-    color: #6a9caa;
-    opacity: 1;
-    background: transparent;
+.note-input:focus + .note-label,
+.note-input:not(:placeholder-shown) + .note-label {
+    top: -6px;
+    left: 6px;
+    font-size: 11px;
+    background: white;
     padding: 0 4px;
+    color: #333;
 }
 
 .char-counter {
     position: absolute;
-    bottom: -25px;
-    margin-left: 420px;
-    background: transparent;
-    color: #666;
-    font-size: 14px;
+    bottom: 6px; /* Подстроил под новый padding */
+    right: 6px;
+    font-size: 11px;
+    color: #999;
 }
 
-h1 {
-    background: transparent;
-    text-align: center;
-    margin-top: 4px;
-    opacity: 0.7;
+.enter {
+    align-self: flex-end;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 6px; /* Уменьшил padding */
+    border-radius: 4px;
+    transition: background 0.3s ease;
 }
 
-h2 {
-    background: transparent;
-    text-align: center;
-    margin-top: 2px;
-    font-size: 20px;
-    color: #557e89;
+.enter:hover {
+    background: #f0f0f0;
+}
+
+/* Контейнер для заметок */
+.note-container {
+    flex: 1;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background: white;
+    padding: 15px; /* Уменьшил padding */
+    overflow-y: auto;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+    main {
+        flex-direction: column;
+        gap: 15px;
+    }
+    
+    .left-side {
+        width: 100%;
+        height: auto;
+        flex-direction: row;
+        gap: 10px;
+    }
+    
+    .categories-block, .status-block {
+        flex: 1;
+        margin-top: 0;
+    }
+    
+    .input-note {
+        height: 160px;
+    }
 }
