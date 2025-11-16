@@ -1,21 +1,20 @@
 const enterButton = document.querySelector(".enter");
 const taskInput = document.getElementById("task");
-const prioritySelect = document.querySelector(".priority");
 const charCounter = document.querySelector(".char-counter");
 const notesContainer = document.querySelector('.notes-container');
-const categoryButtons = document.querySelectorAll(".button-categories");
-const filterSelect = document.querySelector(".filter");
-
-const processBlock = document.querySelector('.process-block fieldset');
-const doneBlock = document.querySelector('.done-block fieldset');
+const categoryButtons = document.querySelectorAll(".categories-button");
+const statusButtons = document.querySelectorAll(".status-button");
+const categorySelect = document.querySelector(".categories-selector");
 
 let noteIdCounter = 1;
 let isEditing = false;
 let currentEditingNote = null;
+let currentStatus = "all"; 
+let currentCategoryFilter = "all"; 
 
 taskInput.addEventListener("input", function() {
     const currentLength = this.value.length;
-    charCounter.textContent = `${currentLength}/35`;
+    charCounter.textContent = `${currentLength}/70`;
 });
 
 function activateCategory(clickedButton) {
@@ -23,6 +22,8 @@ function activateCategory(clickedButton) {
         button.classList.remove('active');
     });
     clickedButton.classList.add('active');
+    currentCategoryFilter = clickedButton.textContent === "Общее" ? "all" : clickedButton.textContent;
+    applyFilters();
 }
 
 categoryButtons.forEach(button => {
@@ -31,44 +32,63 @@ categoryButtons.forEach(button => {
     });
 });
 
+function activateStatus(clickedButton) {
+    statusButtons.forEach(button => {
+        button.classList.remove('active');
+    });
+    clickedButton.classList.add('active');
+    
+    const statusText = clickedButton.textContent;
+    if (statusText === "Выполнено") {
+        currentStatus = "completed";
+    } else if (statusText === "Не выполнено") {
+        currentStatus = "active";
+    } else {
+        currentStatus = "all";
+    }
+    applyFilters();
+}
+
+statusButtons.forEach(button => {
+    button.addEventListener('click', function() {
+        activateStatus(this);
+    });
+});
+
 document.addEventListener('DOMContentLoaded', function() {
-    const allButton = document.querySelector('.button-categories');
-    activateCategory(allButton);
+    const firstCategoryButton = document.querySelector('.categories-button');
+    
+    if (firstCategoryButton) {
+        activateCategory(firstCategoryButton);
+    }
 });
 
 function handleEnterButton(e) {
     e.preventDefault();
 
-    let isValid = true;
-
     let taskText = taskInput.value.trim();
-    let priorityValue = prioritySelect.value;
-    let activeCategory = document.querySelector('.button-categories.active').textContent;
+    let selectedCategory = categorySelect.options[categorySelect.selectedIndex].text;
 
     if (taskText === "") {
-        isValid = false;
+        console.log("Введите текст задачи!");
+        taskInput.classList.add("invalid");
+        return;
     }
 
-    if (isValid == false) {
-        console.log("Введите текст задачи!");
-        taskInput.classList.add("invalid")
+    if (isEditing && currentEditingNote) {
+        updateNote(currentEditingNote, taskText, selectedCategory);
+    } else {
+        createNote(taskText, selectedCategory);
     }
-    else {
-        if (isEditing && currentEditingNote) {
-            updateNote(currentEditingNote, taskText, priorityValue);
-        } else {
-            CreateNote(taskText, priorityValue, activeCategory);
-        }
-        clearInput();
-        applyFilter();
-    }
+    clearInput();
+    applyFilters();
 }
 
 enterButton.addEventListener("click", handleEnterButton);
 
 function clearInput() {
     taskInput.value = "";
-    charCounter.textContent = "0/35";
+    charCounter.textContent = "0/70";
     taskInput.classList.remove("invalid");
     isEditing = false;
     currentEditingNote = null;
@@ -80,93 +100,28 @@ function clearInput() {
     `;
 }
 
-function updateNote(noteElement, newText, newPriority) {
+function updateNote(noteElement, newText, category) {
     const noteText = noteElement.querySelector('.note-text');
+    const categorySpan = noteElement.querySelector('.note-category');
+    
     noteText.textContent = newText;
-
-    noteElement.dataset.priority = newPriority;
-    
-    const noteContent = noteElement.querySelector('.note-content');
-    noteContent.className = 'note-content';
-    
-    let priorityClass = '';
-    switch(newPriority) {
-        case '3':
-            priorityClass = 'high-priority';
-            break;
-        case '2':
-            priorityClass = 'medium-priority';
-            break;
-        case '1':
-            priorityClass = 'low-priority';
-            break;
-    }
-    noteContent.classList.add(priorityClass);
-
-    updateProcessDoneBlocks();
+    categorySpan.textContent = category + ":";
+    noteElement.dataset.category = category;
 }
 
-function createNoteClone(originalNote, isCompleted) {
-    const clone = originalNote.cloneNode(true);
-    clone.classList.add('note-clone');
-    
-    const buttons = clone.querySelector('.note-buttons');
-    if (buttons) {
-        buttons.remove();
-    }
-    const checkbox = clone.querySelector('.note-checkbox');
-    if (checkbox) {
-        checkbox.remove();
-    }
-    
-    if (isCompleted) {
-        doneBlock.appendChild(clone);
-    } else {
-        processBlock.appendChild(clone);
-    }
-    
-    return clone;
-}
-function updateProcessDoneBlocks() {
-    const processNotes = processBlock.querySelectorAll('.note-clone');
-    const doneNotes = doneBlock.querySelectorAll('.note-clone');
-    
-    processNotes.forEach(note => note.remove());
-    doneNotes.forEach(note => note.remove());
-
-    const allNotes = notesContainer.querySelectorAll('.note');
-    allNotes.forEach(note => {
-        const isCompleted = note.dataset.completed === 'true';
-        createNoteClone(note, isCompleted);
-    });
-}
-
-function CreateNote(text, priority, category) {
+function createNote(text, category) {
     const noteId = `note-${noteIdCounter++}`;
     
     const noteElement = document.createElement('div');
     noteElement.className = 'note';
     noteElement.dataset.id = noteId;
-    noteElement.dataset.priority = priority;
     noteElement.dataset.category = category;
-    noteElement.dataset.completed = 'false'; 
-
-    let priorityClass = '';
-    switch(priority) {
-        case '3':
-            priorityClass = 'high-priority';
-            break;
-        case '2':
-            priorityClass = 'medium-priority';
-            break;
-        case '1':
-            priorityClass = 'low-priority';
-            break;
-    }
+    noteElement.dataset.completed = 'false';
     
     noteElement.innerHTML = `
-        <div class="note-content ${priorityClass}">
+        <div class="note-content">
             <input type="checkbox" class="note-checkbox">
+            <span class="note-category">${category}:</span>
             <span class="note-text">${text}</span>
             <div class="note-buttons">
                 <button class="edit-btn" title="Редактировать">
@@ -182,10 +137,12 @@ function CreateNote(text, priority, category) {
             </div>
         </div>
     `;
-    
-    notesContainer.appendChild(noteElement);
 
-    createNoteClone(noteElement, false);
+    if (notesContainer.firstChild) {
+        notesContainer.insertBefore(noteElement, notesContainer.firstChild);
+    } else {
+        notesContainer.appendChild(noteElement);
+    }
     
     const checkbox = noteElement.querySelector('.note-checkbox');
     const editBtn = noteElement.querySelector('.edit-btn');
@@ -196,27 +153,23 @@ function CreateNote(text, priority, category) {
         const isCompleted = this.checked;
         noteElement.dataset.completed = isCompleted.toString();
         
-        if (isCompleted) {
-            noteText.style.textDecoration = 'line-through';
-            noteText.style.opacity = '0.7';
-        } else {
-            noteText.style.textDecoration = 'none';
-            noteText.style.opacity = '1';
-        }
-        
-        updateProcessDoneBlocks();
-
-        applyFilter();
+        applyFilters();
     });
     
     editBtn.addEventListener('click', function() {
         isEditing = true;
         currentEditingNote = noteElement;
-        
-        taskInput.value = noteText.textContent;
-        prioritySelect.value = priority;
 
-        charCounter.textContent = `${taskInput.value.length}/35`;
+        const categoryFromNote = noteElement.dataset.category;
+        for (let i = 0; i < categorySelect.options.length; i++) {
+            if (categorySelect.options[i].text === categoryFromNote) {
+                categorySelect.selectedIndex = i;
+                break;
+            }
+        }
+
+        taskInput.value = noteText.textContent;
+        charCounter.textContent = `${taskInput.value.length}/70`;
         
         enterButton.innerHTML = `
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -233,32 +186,29 @@ function CreateNote(text, priority, category) {
         }
         
         noteElement.remove();
-        updateProcessDoneBlocks();
-        applyFilter();
+        applyFilters();
     });
 }
 
-function applyFilter() {
-    const selectedFilter = filterSelect.value;
+function applyFilters() {
     const notes = document.querySelectorAll('.note');
     
     notes.forEach(note => {
-        if (selectedFilter === '4') {
-            note.style.display = 'block';
-        } else {
-            if (note.dataset.priority === selectedFilter) {
-                note.style.display = 'block';
-            } else {
-                note.style.display = 'none';
-            }
+        const noteCategory = note.dataset.category;
+        const isCompleted = note.dataset.completed === 'true';
+        
+        let shouldShow = true;
+
+        if (currentCategoryFilter !== "all" && noteCategory !== currentCategoryFilter) {
+            shouldShow = false;
         }
+
+        if (currentStatus === "completed" && !isCompleted) {
+            shouldShow = false;
+        } else if (currentStatus === "active" && isCompleted) {
+            shouldShow = false;
+        }
+        
+        note.style.display = shouldShow ? 'block' : 'none';
     });
 }
-
-filterSelect.addEventListener('change', function() {
-    applyFilter();
-});
-
-document.addEventListener('DOMContentLoaded', function() {
-    applyFilter();
-});
