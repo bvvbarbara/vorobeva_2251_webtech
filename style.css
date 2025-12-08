@@ -251,8 +251,19 @@ button:active {
     transform: translateY(2px);
 }
 
+.note {
+    transition: all 0.3s ease;
+}
 
-/*JS code*/
+.note.dragging {
+    opacity: 0.5;
+    background-color: #f0f0f0;
+}
+
+.note.over {
+    border-top: 2px solid #2196F3;
+    margin-top: 10px;
+}
 
 .note {
     background: #ffffff;
